@@ -1,7 +1,8 @@
 from flask import Flask
 import os
 from dotenv import load_dotenv
-from app.controllers.users_controller import bp as users_blueprint
+from app.controllers.user_controller import bp as user_blueprint
+from app.controllers.device_controller import bp as device_blueprint
 
 
 # Load environment variables from the .env file
@@ -28,6 +29,7 @@ def create_app(test_config=None):
         pass
 
     # Register the blueprints
-    app.register_blueprint(users_blueprint)
+    app.register_blueprint(user_blueprint)
+    app.register_blueprint(device_blueprint)
 
     return app

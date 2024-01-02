@@ -4,7 +4,7 @@ from app.services.zkteco_service import ZktecoService
 from zk import ZK
 from app.validations import create_user_schema, delete_user_schema, get_fingerprint_schema, delete_fingerprint_schema, validate_data
 
-bp = Blueprint('users', __name__, url_prefix='/')
+bp = Blueprint('user', __name__, url_prefix='/')
 
 zkteco_service = ZktecoService(
     zk_class=ZK,

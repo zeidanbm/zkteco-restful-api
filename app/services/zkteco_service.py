@@ -3,6 +3,8 @@ from typing import Type
 import requests
 import os
 import threading
+from struct import unpack
+from socket import timeout
 
 
 class ZktecoService:
@@ -13,24 +15,56 @@ class ZktecoService:
                 port=port,
                 timeout=timeout,
                 password=password,
-                force_udp=force_udp
+                force_udp=force_udp,
+                verbose=True
             )
             self.connect()
-            self.start_live_capture_thread()
         except Exception as e:
             print(f"Could not connect to Zkteco device on {ip}:{port} : {e}")
 
     def start_live_capture_thread(self):
-        print('threading')
-        #self.live_capture_thread = threading.Thread(target=self.fingerprint_capture)
-        #self.live_capture_thread.start()
+        self.live_capture_thread = threading.Thread(target=self.live_capture)
+        self.live_capture_thread.start()
+
+    def live_capture(self, new_timeout=3600):
+        self.zk.cancel_capture()
+        self.zk.verify_user()
+        self.enable_device()
+        self.zk.reg_event(1)
+        socket = self.zk.get_socket()
+        socket.settimeout(new_timeout)
+        self.zk.end_live_capture = False
+        while not self.zk.end_live_capture:
+            try:
+                data_recv = socket.recv(1032)
+                self.zk.ack_ok()
+              
+                header = unpack('HHHH', data_recv[8:16])
+                data = data_recv[16:]
+               
+                if not header[0] == 500:
+                    continue
+                if not len(data):
+                    continue
+                while len(data) >= 12:
+                    if len(data) == 36:
+                        user_id, _status, _punch, _timehex, _other = unpack('<24sBB6s4s', data[:36])
+                        data = data[36:]
+                    
+                    user_id = (user_id.split(b'\x00')[0]).decode(errors='ignore')
+                    self.send_attendace_request(user_id)
+            except timeout:
+                print("time out")
+            except (KeyboardInterrupt, SystemExit):
+                break
+        socket.settimeout(60)
+        self.zk.reg_event(0)
 
     def fingerprint_capture(self):
         for attendance in self.zk.live_capture():
             if attendance is None:
                 pass
             else:
-                print(attendance.user_id)
                 self.send_attendace_request(attendance.user_id)
 
     def send_attendace_request(self, member_id):
@@ -173,8 +207,8 @@ class ZktecoService:
 
     def enable_device(self):
         self.zk.enable_device()
-        self.start_live_capture_thread()
+        #self.start_live_capture_thread()
 
     def disable_device(self):
-        self.zk.end_live_capture = True
+        #self.zk.end_live_capture = True
         self.zk.disable_device()
