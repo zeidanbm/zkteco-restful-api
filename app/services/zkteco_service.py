@@ -17,6 +17,7 @@ class ZktecoService:
                 timeout=timeout,
                 password=password,
                 force_udp=force_udp,
+                verbose=True
             )
             self.connect()
         except Exception as e:
@@ -84,7 +85,6 @@ class ZktecoService:
             )
         finally:
             self.enable_device()
-            self.start_live_capture_thread()
 
     def get_all_users(self):
         try:
