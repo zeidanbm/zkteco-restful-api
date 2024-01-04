@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, request, jsonify
 from app.services.zkteco_service import ZktecoService
-from zk import ZK
+from __editable___pyzk_0_9_1_finder import ZK
 from app.validations import create_user_schema, delete_user_schema, get_fingerprint_schema, delete_fingerprint_schema, validate_data
 
 bp = Blueprint('user', __name__, url_prefix='/')

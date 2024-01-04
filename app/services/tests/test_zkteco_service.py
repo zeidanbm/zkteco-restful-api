@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 from zkteco_service import ZktecoService
-from zk import const
+from __editable___pyzk_0_9_1_finder import const
 
 class TestZktecoService(unittest.TestCase):
     # Mock setup

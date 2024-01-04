@@ -1,4 +1,4 @@
-from zk import ZK, const
+from __editable___pyzk_0_9_1_finder import ZK, const
 from typing import Type
 import requests
 import os

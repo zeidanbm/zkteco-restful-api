@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, jsonify
 from app.services.zkteco_service import ZktecoService
-from zk import ZK
+from __editable___pyzk_0_9_1_finder import ZK
 
 
 bp = Blueprint('device', __name__, url_prefix='/')
