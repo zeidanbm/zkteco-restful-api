@@ -63,9 +63,9 @@ def delete_user(user_id):
 def create_fingerprint(user_id):
     data = request.json
     temp_id = data.get('temp_id')
-
+    
     try:
-        zkteco_service.enroll_user(int(user_id), temp_id)
+        zkteco_service.enroll_user(int(user_id), int(temp_id))
         return jsonify({"message": "Fingerprint created successfully"})
     except Exception as e:
         error_message = f"Error creating fingerprint: {str(e)}"

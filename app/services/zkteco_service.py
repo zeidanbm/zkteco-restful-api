@@ -103,7 +103,8 @@ class ZktecoService:
             self.connect()
             self.disable_device()
             zk_instance.delete_user(
-                user_id=user_id
+                uid=user_id,
+                user_id=str(user_id)
             )
         finally:
             self.enable_device()
@@ -157,9 +158,6 @@ class ZktecoService:
             self.enable_device()
     
     def connect(self):
-        if(self.zk.is_connect and self.zk.helper.test_ping()):
-            return
-        
         attempts = 3
         for _ in range(attempts):
             try:
