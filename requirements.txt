@@ -21,3 +21,4 @@ rpds-py==0.15.2
 urllib3==2.1.0
 Werkzeug==3.0.1
 zipp==3.17.0
+gunicorn==21.2.0
