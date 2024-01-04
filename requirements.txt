@@ -21,4 +21,3 @@ rpds-py==0.15.2
 urllib3==2.1.0
 Werkzeug==3.0.1
 zipp==3.17.0
--e git+https://github.com/zeidanbm/zkteco-restful-api.git@0353ffbb5c39cb99628c6fd377ced7420bb135dc#egg=zkteco
