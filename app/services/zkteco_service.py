@@ -36,7 +36,7 @@ class ZktecoService:
         while not self.zk.end_live_capture:
             try:
                 data_recv = self.zk._ZK__sock.recv(1032)
-                self.zk.ZK__ack_ok()
+                self.zk._ZK__ack_ok()
               
                 header = unpack('HHHH', data_recv[8:16])
                 data = data_recv[16:]
