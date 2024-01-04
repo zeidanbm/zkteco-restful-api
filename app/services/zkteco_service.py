@@ -31,13 +31,12 @@ class ZktecoService:
         self.zk.verify_user()
         self.enable_device()
         self.zk.reg_event(1)
-        socket = self.zk.get_socket()
-        socket.settimeout(new_timeout)
+        self.zk._ZK__sock.settimeout(new_timeout)
         self.zk.end_live_capture = False
         while not self.zk.end_live_capture:
             try:
-                data_recv = socket.recv(1032)
-                self.zk.ack_ok()
+                data_recv = self.zk._ZK__sock.recv(1032)
+                self.zk.ZK__ack_ok()
               
                 header = unpack('HHHH', data_recv[8:16])
                 data = data_recv[16:]
@@ -57,7 +56,7 @@ class ZktecoService:
                 print("time out")
             except (KeyboardInterrupt, SystemExit):
                 break
-        socket.settimeout(60)
+        self.zk._ZK__sock.settimeout(60)
         self.zk.reg_event(0)
 
     def send_attendace_request(self, member_id):
