@@ -1,4 +1,4 @@
-from zk import ZK, const
+from zk import ZK
 from typing import Type
 from dotenv import load_dotenv
 import requests
@@ -7,7 +7,6 @@ import threading
 from struct import unpack
 from socket import timeout
 import time
-#import select
 
 load_dotenv()
 
@@ -32,7 +31,6 @@ class ZktecoWrapper:
         self.live_capture_thread.start()
 
     def live_capture(self, new_timeout=None):
-        print('live capture run')
         self.zk.cancel_capture()
         self.zk.verify_user()
         self.enable_device()
@@ -40,15 +38,22 @@ class ZktecoWrapper:
         self.zk._ZK__sock.settimeout(new_timeout)
         self.zk.end_live_capture = False
         while not self.zk.end_live_capture:
+            print('trying')
             try:
-                print('trying')
                 #ready_to_read, _, _ = select.select([self.zk._ZK__sock], [], [], 1.0)  # Timeout is 1 second
                 #if self.zk._ZK__sock in ready_to_read:
+
                 data_recv = self.zk._ZK__sock.recv(1032)
                 self.zk._ZK__ack_ok()
-            
-                header = unpack('HHHH', data_recv[8:16])
-                data = data_recv[16:]
+
+                if self.zk.tcp:
+                    size = unpack('<HHI', data_recv[:8])[2]
+                    header = unpack('HHHH', data_recv[8:16])
+                    data = data_recv[16:]
+                else:
+                    size = len(data_recv)
+                    header = unpack('<4H', data_recv[:8])
+                    data = data_recv[8:]
             
                 if not header[0] == 500:
                     continue
@@ -92,6 +97,7 @@ class ZktecoWrapper:
 
     def send_attendace_request(self, member_id):
         try:
+            print('attendance')
             if self.zk.end_live_capture:
                 return
             attendance_url = os.environ.get('BACKEND_URL') + '/check-in'
@@ -101,20 +107,34 @@ class ZktecoWrapper:
             print(f"Error in send_attendance_request: {str(e)}")
 
     def connect(self, enable_live_capture = False):
-        if self.zk.is_connect:
+        print('check connection')
+        if self.zk.is_connect and self.zk.helper.test_ping():
             return
 
-        attempts = 3
-        for _ in range(attempts):
+        while True:
             try:
                 self.zk.connect()
                 print("Connected to ZK device successfully")
                 if enable_live_capture:
                     self.start_live_capture_thread()
+                self.keepAlive()
                 return
             except Exception as e:
                 print(f"Failed to connect to ZK device. Retrying... ({e})")
-                time.sleep(1)  # Wait for 2 seconds before retrying
+                time.sleep(5)
+
+    def keepAlive(self):
+        while True:
+            print('keep alive')
+            isDeviceAlive = self.zk.helper.test_ping()
+            
+            if not isDeviceAlive:
+                self.zk.end_live_capture = True
+                self.connect(True)
+                return
+
+            # Sleep for 5 seconds before the next iteration
+            time.sleep(5)
 
     def enable_device(self):
         self.zk.enable_device()
