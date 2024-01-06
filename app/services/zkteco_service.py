@@ -17,10 +17,9 @@ class ZktecoService:
                 port=port,
                 timeout=timeout,
                 password=password,
-                force_udp=force_udp,
-                verbose=True
+                force_udp=force_udp
             )
-            self.connect(True)
+            self.connect()
         except Exception as e:
             print(f"Could not connect to Zkteco device on {ip}:{port} : {e}")
 
@@ -191,18 +190,17 @@ class ZktecoService:
             self.enable_device()
     
     def connect(self):
-        if self.zk.is_connect:
+        if self.zk.is_connect and self.zk.helper.test_ping():
             return
 
-        attempts = 3
-        for _ in range(attempts):
+        while True:
             try:
                 self.zk.connect()
                 print("Connected to ZK device successfully")
                 return
             except Exception as e:
                 print(f"Failed to connect to ZK device. Retrying... ({e})")
-                time.sleep(1)  # Wait for 2 seconds before retrying
+                time.sleep(5)
 
     def disconnect(self):
         try:

@@ -31,17 +31,24 @@ def create_user():
         error_message = f"Error creating user: {str(e)}"
         return jsonify({"message": error_message}), 500
 
+def serialize_user(user):
+    return {
+        "id": user.user_id,
+        "name": user.name,
+        "groupId": user.group_id
+    }
 
 @bp.route('/users', methods=['GET'])
 def get_all_users():
     try:
         users = zkteco_service.get_all_users()
-        return jsonify({"message": "Users retrieved successfully", "data": users})
+        # Serialize each User object to a dictionary
+        serialized_users = [serialize_user(user) for user in users]
+        return jsonify({"message": "Users retrieved successfully", "data": serialized_users})
     except Exception as e:
         error_message = f"Error retrieving users: {str(e)}"
         return jsonify({"message": error_message}), 500
     
-
 
 @bp.route('/user/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
