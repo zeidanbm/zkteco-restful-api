@@ -12,7 +12,7 @@ def device_capture():
     try:
         zkteco_service = ZktecoService(
             zk_class=ZK,
-            ip=os.environ.get('DEVICE_IP', '192.168.20.205'),
+            ip=os.environ.get('DEVICE_IP', '192.168.3.18'),
             port=int(os.environ.get('DEVICE_PORT', '4370'))
         )
         zkteco_service.start_live_capture_thread()
