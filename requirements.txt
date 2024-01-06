@@ -6,6 +6,7 @@ click==8.1.7
 colorama==0.4.6
 Flask==3.0.0
 future==0.18.3
+gunicorn==21.2.0
 idna==3.6
 importlib-metadata==7.0.1
 itsdangerous==2.1.2
@@ -13,12 +14,12 @@ Jinja2==3.1.2
 jsonschema==4.20.0
 jsonschema-specifications==2023.12.1
 MarkupSafe==2.1.3
+packaging==23.2
 python-dotenv==1.0.0
--e git+https://github.com/zeidanbm/pyzk.git@a184d5fbe70a4aec611ccd02e9cb9bd600a3c406#egg=pyzk
+-e git+https://github.com/zeidanbm/pyzk.git@e1f22e48d7dfaed06bc3f2877efac383cd034ade#egg=pyzk
 referencing==0.32.0
 requests==2.31.0
 rpds-py==0.15.2
 urllib3==2.1.0
 Werkzeug==3.0.1
 zipp==3.17.0
-gunicorn==21.2.0
