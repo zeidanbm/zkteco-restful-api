@@ -17,7 +17,8 @@ class ZktecoService:
                 port=port,
                 timeout=timeout,
                 password=password,
-                force_udp=force_udp
+                force_udp=force_udp,
+                verbose=True
             )
             self.connect()
         except Exception as e:
