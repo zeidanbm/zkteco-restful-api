@@ -1,5 +1,6 @@
 from flask import Flask
 import os
+import logging
 from dotenv import load_dotenv
 from app.controllers.user_controller import bp as user_blueprint
 from app.controllers.device_controller import bp as device_blueprint
