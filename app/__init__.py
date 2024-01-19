@@ -28,6 +28,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # Set debug mode
+    app.debug = True
+
     # Register the blueprints
     app.register_blueprint(user_blueprint)
     app.register_blueprint(device_blueprint)
