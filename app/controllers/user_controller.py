@@ -1,14 +1,14 @@
 import os
 from flask import Blueprint, request, jsonify
 from app.services.zkteco_service import ZktecoService
-from app.simulator_zk import SimulatorZK
+from zk import ZK
 from app.validations import create_user_schema, delete_user_schema, get_fingerprint_schema, delete_fingerprint_schema, validate_data
 from app.logger import app_logger
 
 bp = Blueprint('user', __name__, url_prefix='/')
 
 zkteco_service = ZktecoService(
-    zk_class=SimulatorZK,
+    zk_class=ZK,
     ip=os.environ.get('DEVICE_IP', '192.168.3.18'),
     port=int(os.environ.get('DEVICE_PORT', '4370'))
 )
