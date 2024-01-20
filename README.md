@@ -11,3 +11,6 @@ After successfully building the image, you can run a container from it:
 ```
 docker run -p 4000:80 --restart always zkteco-restful-api-image
 ```
+
+## Bypass authorization on re-running subprocess
+`<your_username>` ALL=(ALL) NOPASSWD: /usr/sbin/service `<service_name>`

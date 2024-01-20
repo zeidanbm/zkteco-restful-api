@@ -2,12 +2,14 @@ from zk import ZK
 from typing import Type
 from dotenv import load_dotenv
 import requests
+import subprocess
 import os
 import threading
 from struct import unpack
 from socket import timeout
 import time
 from distutils.util import strtobool
+#from zkteco.simulator_zk import SimulatorZK
 
 load_dotenv()
 
@@ -126,9 +128,8 @@ class ZktecoWrapper:
             isDeviceAlive = self.zk.helper.test_ping()
             
             if not isDeviceAlive:
-                self.zk.end_live_capture = True
-                self.connect(True)
-                return
+                time.sleep(5)
+                self.terminate_service()
 
             # Sleep for 5 seconds before the next iteration
             time.sleep(5)
@@ -139,6 +140,10 @@ class ZktecoWrapper:
     def disable_device(self):
         self.zk.disable_device()
 
+    def terminate_service(self):
+        sudo_password = os.environ.get('PASSWORD')
+        command = ["sudo", "-S", "systemctl", "kill", "--signal=SIGHUP", os.environ.get('SERVICE_NAME')]
+        subprocess.run(command, input=sudo_password, check=True, text=True, user=os.environ.get('SUBPROCESS_USER'))
 
 if __name__ == "__main__":
     ZktecoWrapper(
