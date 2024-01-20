@@ -7,12 +7,13 @@ import threading
 from struct import unpack
 from socket import timeout
 import time
+from distutils.util import strtobool
 
 load_dotenv()
 
 
 class ZktecoWrapper:
-    def __init__(self, zk_class: Type[ZK], ip, port=4370, timeout=None, password=0, force_udp=False):
+    def __init__(self, zk_class: Type[ZK], ip, port=4370, verbose=False, timeout=None, password=0, force_udp=False):
         try:
             self.zk = zk_class(
                 ip,
@@ -20,7 +21,7 @@ class ZktecoWrapper:
                 timeout=timeout,
                 password=password,
                 force_udp=force_udp,
-                verbose=True
+                verbose=verbose
             )
             self.connect(True)
         except Exception as e:
@@ -38,7 +39,6 @@ class ZktecoWrapper:
         self.zk._ZK__sock.settimeout(new_timeout)
         self.zk.end_live_capture = False
         while not self.zk.end_live_capture:
-            print('trying')
             try:
                 #ready_to_read, _, _ = select.select([self.zk._ZK__sock], [], [], 1.0)  # Timeout is 1 second
                 #if self.zk._ZK__sock in ready_to_read:
@@ -97,7 +97,6 @@ class ZktecoWrapper:
 
     def send_attendace_request(self, member_id):
         try:
-            print('attendance')
             if self.zk.end_live_capture:
                 return
             attendance_url = os.environ.get('BACKEND_URL') + '/check-in'
@@ -107,7 +106,6 @@ class ZktecoWrapper:
             print(f"Error in send_attendance_request: {str(e)}")
 
     def connect(self, enable_live_capture = False):
-        print('check connection')
         if self.zk.is_connect and self.zk.helper.test_ping():
             return
 
@@ -125,7 +123,6 @@ class ZktecoWrapper:
 
     def keepAlive(self):
         while True:
-            print('keep alive')
             isDeviceAlive = self.zk.helper.test_ping()
             
             if not isDeviceAlive:
@@ -145,7 +142,8 @@ class ZktecoWrapper:
 
 if __name__ == "__main__":
     ZktecoWrapper(
-    zk_class=ZK,
-    ip=os.environ.get('DEVICE_IP', '192.168.3.18'),
-    port=int(os.environ.get('DEVICE_PORT', '4370'))
-)
+        zk_class = ZK,
+        ip = os.environ.get('DEVICE_IP'),
+        port = int(os.environ.get('DEVICE_PORT', '4370')),
+        verbose = bool(strtobool(os.getenv("FLASK_DEBUG", "false")))
+    )

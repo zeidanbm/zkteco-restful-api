@@ -1,0 +1,26 @@
+[2024-01-20 13:07:27,786] WARNING in zk_service: Could not connect to Zkteco device on 192.168.20.205:4370 : 'Flask' object has no attribute 'warning'
+[2024-01-20 13:11:57,920] WARNING in zk_service: Could not connect to Zkteco device on 192.168.20.205:4370 : 'Flask' object has no attribute 'warning'
+[2024-01-20 13:13:13,914] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:13:23,923] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:16:40,234] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:21:25,921] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:21:30,931] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:22:28,420] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:22:38,431] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:22:48,441] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:22:58,450] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:23:08,460] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:23:18,469] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:23:28,480] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:23:38,489] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:23:48,497] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:23:58,507] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
+[2024-01-20 13:25:15,955] WARNING in zk_service: Could not connect to Zkteco device on 192.168.20.205:4370 : SimulatorZK.__init__() got an unexpected keyword argument 'verbose'
+[2024-01-20 13:25:16,159] WARNING in zk_service: Could not connect to Zkteco device on 192.168.20.205:4370 : SimulatorZK.__init__() got an unexpected keyword argument 'verbose'
+[2024-01-20 13:25:40,286] WARNING in zk_service: Could not connect to Zkteco device on 192.168.20.205:4370 : 'SimulatorZK' object has no attribute 'is_connect'
+[2024-01-20 13:25:40,487] WARNING in zk_service: Could not connect to Zkteco device on 192.168.20.205:4370 : 'SimulatorZK' object has no attribute 'is_connect'
+[2024-01-20 13:26:16,180] INFO in zk_service: Connected to ZK device successfully
+[2024-01-20 13:26:16,383] INFO in zk_service: Connected to ZK device successfully
+[2024-01-20 13:26:45,053] INFO in zk_service: Connected to ZK device successfully
+[2024-01-20 13:26:45,054] INFO in zk_service: Connected to ZK device successfully
+[2024-01-20 13:27:24,516] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))

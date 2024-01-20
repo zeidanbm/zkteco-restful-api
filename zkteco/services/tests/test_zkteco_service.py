@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import MagicMock
-from zkteco_service import ZktecoService
+from zkteco.services.zk_service import ZkService
 from __editable___pyzk_0_9_1_finder import const
 
-class TestZktecoService(unittest.TestCase):
+class TestZkService(unittest.TestCase):
     # Mock setup
     zk_mock = MagicMock()
     zk_instance_mock = MagicMock()
@@ -20,7 +20,7 @@ class TestZktecoService(unittest.TestCase):
         
     def setUpQuickUser(self):
         # Common setup for each test
-        self.zkteco_service = ZktecoService(ip='127.0.0.1')
+        self.zkteco_service = ZkService(ip='127.0.0.1')
         self.zkteco_service.create_user(user_id=1, user_data={'name': 'John'})
 
     def test_disable_device_called(self):

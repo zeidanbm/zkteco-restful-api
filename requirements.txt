@@ -20,6 +20,7 @@ python-dotenv==1.0.0
 referencing==0.32.0
 requests==2.31.0
 rpds-py==0.15.2
+sentry-sdk==1.39.2
 urllib3==2.1.0
 Werkzeug==3.0.1
 zipp==3.17.0

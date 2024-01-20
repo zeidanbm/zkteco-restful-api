@@ -1,7 +1,9 @@
 class SimulatorZK:
-    def __init__(self, ip, port=4370, timeout=5, password=0, force_udp=False, omit_ping=False):
+    def __init__(self, ip, port=4370, timeout=5, password=0, verbose=False, force_udp=False, omit_ping=False):
         # Initialize any required attributes for your simulator
         self.users = {}
+        self.is_connect = False
+        self.is_enabled = True
 
     def connect(self):
         # Implement connection logic if needed
