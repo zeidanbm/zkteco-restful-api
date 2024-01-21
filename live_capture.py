@@ -25,6 +25,7 @@ class ZktecoWrapper:
                 force_udp=force_udp,
                 verbose=verbose
             )
+            print('test0')
             self.connect(True)
         except Exception as e:
             print(f"Could not connect to Zkteco device on {ip}:{port} : {e}")
@@ -154,6 +155,7 @@ class ZktecoWrapper:
         subprocess.run(command, input=sudo_password, check=True, text=True, user=os.environ.get('SUBPROCESS_USER'))
 
 if __name__ == "__main__":
+    print('test-1')
     ZktecoWrapper(
         zk_class = ZK,
         ip = os.environ.get('DEVICE_IP'),
