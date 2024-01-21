@@ -16,4 +16,4 @@ build/
 *.egg-info/
 
 .env
-app.log
+*.log

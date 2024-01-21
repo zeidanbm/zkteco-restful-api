@@ -9,9 +9,28 @@ from struct import unpack
 from socket import timeout
 import time
 from distutils.util import strtobool
+import logging
+from logging.handlers import RotatingFileHandler
 #from zkteco.simulator_zk import SimulatorZK
 
 load_dotenv()
+
+
+# Log file size from .env or default to 10MB
+log_file_size = int(os.getenv('LOG_FILE_SIZE', 10485760))
+
+# Set up logging
+log_file_path = os.path.join(os.getcwd(), 'live-capture.log')
+handler = RotatingFileHandler(log_file_path, maxBytes=log_file_size, backupCount=3)
+
+# Define the formatter and set it for the handler
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
+handler.setFormatter(formatter)
+
+# Configure the logging settings
+logger = logging.getLogger(__name__)
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)  # Adjust the log level as needed
 
 
 class ZktecoWrapper:
@@ -25,10 +44,9 @@ class ZktecoWrapper:
                 force_udp=force_udp,
                 verbose=verbose
             )
-            print('test0')
             self.connect(True)
         except Exception as e:
-            print(f"Could not connect to Zkteco device on {ip}:{port} : {e}")
+            logger.error(f"Could not connect to Zkteco device on {ip}:{port} : {e}")
 
     def start_live_capture_thread(self):
         self.live_capture_thread = threading.Thread(target=self.live_capture)
@@ -90,7 +108,7 @@ class ZktecoWrapper:
                         user_id = (user_id.split(b'\x00')[0]).decode(errors='ignore')
                     self.send_attendace_request(user_id)
             except timeout:
-                print("time out")
+                logger.info("time out")
             except BlockingIOError:
                 pass
             except (KeyboardInterrupt, SystemExit):
@@ -106,21 +124,19 @@ class ZktecoWrapper:
             payload = { 'member_id': member_id }
             requests.post(attendance_url, data=payload)
         except requests.RequestException as e:
-            print(f"Error in send_attendance_request: {str(e)}")
+            logger.error(f"Error in send_attendance_request: {str(e)}")
 
     def connect(self, enable_live_capture = False):
-        print('test1')
         if self.zk.is_connect and self.zk.helper.test_ping():
             return
         
-        print('test2')
         retry_count = 0
         max_retries_log = 10
 
         while True:
             try:
                 self.zk.connect()
-                print("Connected to ZK device successfully")
+                logger.info("Connected to ZK device successfully")
                 retry_count = 0
                 if enable_live_capture:
                     self.start_live_capture_thread()
@@ -129,7 +145,7 @@ class ZktecoWrapper:
             except Exception as e:
                 retry_count += 1
                 if retry_count < max_retries_log:
-                    print(f"Failed to connect to ZK device. Retrying... ({e})")
+                    logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
 
     def keepAlive(self):
@@ -155,7 +171,6 @@ class ZktecoWrapper:
         subprocess.run(command, input=sudo_password, check=True, text=True, user=os.environ.get('SUBPROCESS_USER'))
 
 if __name__ == "__main__":
-    print('test-1')
     ZktecoWrapper(
         zk_class = ZK,
         ip = os.environ.get('DEVICE_IP'),
