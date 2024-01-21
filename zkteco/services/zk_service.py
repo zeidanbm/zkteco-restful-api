@@ -120,7 +120,7 @@ class ZkService:
                 return
             except Exception as e:
                 current_app.logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
-                time.sleep(5)
+                time.sleep(6)
 
     def disconnect(self):
         try:

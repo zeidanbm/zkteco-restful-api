@@ -121,18 +121,18 @@ class ZktecoWrapper:
                 return
             except Exception as e:
                 print(f"Failed to connect to ZK device. Retrying... ({e})")
-                time.sleep(5)
+                time.sleep(6)
 
     def keepAlive(self):
         while True:
             isDeviceAlive = self.zk.helper.test_ping()
             
             if not isDeviceAlive:
-                time.sleep(5)
+                time.sleep(6)
                 self.terminate_service()
 
             # Sleep for 5 seconds before the next iteration
-            time.sleep(5)
+            time.sleep(6)
 
     def enable_device(self):
         self.zk.enable_device()
