@@ -108,9 +108,11 @@ class ZktecoWrapper:
             print(f"Error in send_attendance_request: {str(e)}")
 
     def connect(self, enable_live_capture = False):
+        print('test1')
         if self.zk.is_connect and self.zk.helper.test_ping():
             return
         
+        print('test2')
         retry_count = 0
         max_retries_log = 10
 
