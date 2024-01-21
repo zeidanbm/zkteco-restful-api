@@ -110,17 +110,23 @@ class ZktecoWrapper:
     def connect(self, enable_live_capture = False):
         if self.zk.is_connect and self.zk.helper.test_ping():
             return
+        
+        retry_count = 0
+        max_retries_log = 10
 
         while True:
             try:
                 self.zk.connect()
                 print("Connected to ZK device successfully")
+                retry_count = 0
                 if enable_live_capture:
                     self.start_live_capture_thread()
                 self.keepAlive()
                 return
             except Exception as e:
-                print(f"Failed to connect to ZK device. Retrying... ({e})")
+                retry_count += 1
+                if retry_count < max_retries_log:
+                    print(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
 
     def keepAlive(self):
