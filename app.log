@@ -1,5 +1,0 @@
-[2024-01-22 15:17:14,208] INFO in zk_service: 192.168.20.205
-[2024-01-22 15:17:14,208] INFO in zk_service: 4370
-[2024-01-22 15:17:19,214] WARNING in zk_service: Failed to connect to ZK device. Retrying... (can't reach device (ping 192.168.20.205))
-[2024-01-22 15:17:34,814] INFO in zk_service: 192.168.20.205
-[2024-01-22 15:17:34,815] INFO in zk_service: 4370

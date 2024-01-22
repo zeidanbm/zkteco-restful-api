@@ -27,7 +27,7 @@ formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(mess
 handler.setFormatter(formatter)
 
 # Configure the logging settings
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("zkteco-live-capture")
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)  # Adjust the log level as needed
 
@@ -146,6 +146,7 @@ class ZktecoWrapper:
                 if retry_count < max_retries_log:
                     logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
+                continue
 
     def keepAlive(self):
         while True:
