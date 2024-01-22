@@ -129,6 +129,8 @@ class ZkService:
                 return
             except Exception as e:
                 retry_count += 1
+                app_logger.info(retry_count)
+                app_logger.info(max_retries_log)
                 if retry_count < max_retries_log:
                     app_logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
