@@ -124,7 +124,6 @@ class ZkService:
                 app_logger.info("Connected to ZK device successfully")
                 return
             except Exception as e:
-                retry_count += 1
                 app_logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
                 continue
