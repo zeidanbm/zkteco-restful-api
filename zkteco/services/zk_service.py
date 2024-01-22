@@ -1,5 +1,7 @@
 from distutils.util import strtobool
 import os
+
+from dotenv import load_dotenv
 from zk import ZK, const
 from typing import Type
 import time
@@ -144,6 +146,7 @@ class ZkService:
 
 
 def get_zk_service():
+    load_dotenv()
     app_logger.info(os.environ.get('DEVICE_IP'))
     app_logger.info(os.environ.get('DEVICE_PORT'))
     zk_service =  ZkService(
