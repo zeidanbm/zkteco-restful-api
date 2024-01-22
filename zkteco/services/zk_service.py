@@ -117,22 +117,15 @@ class ZkService:
     def connect(self):
         if self.zk.is_connect and self.zk.helper.test_ping():
             return
-        
-        retry_count = 0
-        max_retries_log = 10
 
         while True:
             try:
                 self.zk.connect()
                 app_logger.info("Connected to ZK device successfully")
-                retry_count = 0
                 return
             except Exception as e:
                 retry_count += 1
-                app_logger.info(retry_count)
-                app_logger.info(max_retries_log)
-                if retry_count < max_retries_log:
-                    app_logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
+                app_logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
                 continue
 
