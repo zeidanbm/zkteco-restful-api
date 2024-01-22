@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from flask import Flask
 import os
 import logging
@@ -8,6 +9,7 @@ from zkteco.controllers.user_controller import bp as user_blueprint
 from zkteco.controllers.device_controller import bp as device_blueprint
 from zkteco.logger import create_log_handler
 
+load_dotenv()
 
 def create_app():
     init_sentry()
