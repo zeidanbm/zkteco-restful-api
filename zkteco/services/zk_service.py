@@ -7,6 +7,8 @@ from typing import Type
 import time
 from zkteco.logger import app_logger
 
+load_dotenv()
+
 class ZkService:
     def __init__(self, zk_class: Type[ZK], ip, port=4370, verbose=False, timeout=None, password=0, force_udp=False):
         try:
@@ -130,6 +132,7 @@ class ZkService:
                 if retry_count < max_retries_log:
                     app_logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
+                continue
 
     def disconnect(self):
         try:
@@ -146,7 +149,6 @@ class ZkService:
 
 
 def get_zk_service():
-    load_dotenv()
     zk_service =  ZkService(
         zk_class = ZK,
         ip = os.environ.get('DEVICE_IP'),
