@@ -10,9 +10,8 @@ class ZKSockMock:
     def recv(self, data):
         return b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F"
 
-class SimulatorZK:
+class ZKMock:
     def __init__(self, ip, port=4370, timeout=5, password=0, verbose=False, force_udp=False, omit_ping=False):
-        # Initialize any required attributes for your simulator
         self.users = {}
         self.is_connect = False
         self.is_enabled = True
@@ -23,6 +22,7 @@ class SimulatorZK:
 
     def connect(self):
         # Implement connection logic if needed
+        self.is_connect = True
         pass
 
     def disable_device(self):

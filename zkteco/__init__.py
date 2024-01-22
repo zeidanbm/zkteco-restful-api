@@ -6,6 +6,7 @@ from logging.handlers import RotatingFileHandler
 from zkteco.services.zk_service import get_zk_service
 from zkteco.controllers.user_controller import bp as user_blueprint
 from zkteco.controllers.device_controller import bp as device_blueprint
+from zkteco.logger import create_log_handler
 
 
 def create_app():
@@ -25,25 +26,7 @@ def create_app():
     app.register_blueprint(user_blueprint)
     app.register_blueprint(device_blueprint)
 
-    with app.app_context():
-        get_zk_service()
-
     return app
-
-
-def create_log_handler():
-    # Log file size from .env or default to 10MB
-    log_file_size = int(os.getenv('LOG_FILE_SIZE', 10485760))
-
-    # Set up logging
-    log_file_path = os.path.join(os.getcwd(), 'app.log')
-    handler = RotatingFileHandler(log_file_path, maxBytes=log_file_size, backupCount=3)
-
-    # Define the formatter and set it for the handler
-    formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
-    handler.setFormatter(formatter)
-
-    return handler
 
 
 def init_sentry():

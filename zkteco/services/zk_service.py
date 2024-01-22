@@ -1,8 +1,9 @@
+from distutils.util import strtobool
+import os
 from zk import ZK, const
 from typing import Type
 import time
-from flask import current_app, g
-#from zkteco.simulator_zk import SimulatorZK
+from zkteco.logger import app_logger
 
 class ZkService:
     def __init__(self, zk_class: Type[ZK], ip, port=4370, verbose=False, timeout=None, password=0, force_udp=False):
@@ -17,7 +18,7 @@ class ZkService:
             )
             self.connect()
         except Exception as e:
-            current_app.logger.warning(f"Could not connect to Zkteco device on {ip}:{port} : {e}")
+            app_logger.warning(f"Could not connect to Zkteco device on {ip}:{port} : {e}")
 
     def create_user(self, user_id, user_data):
         try:
@@ -119,21 +120,21 @@ class ZkService:
         while True:
             try:
                 self.zk.connect()
-                current_app.logger.info("Connected to ZK device successfully")
+                app_logger.info("Connected to ZK device successfully")
                 retry_count = 0
                 return
             except Exception as e:
                 retry_count += 1
                 if retry_count < max_retries_log:
-                    current_app.logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
+                    app_logger.warning(f"Failed to connect to ZK device. Retrying... ({e})")
                 time.sleep(6)
 
     def disconnect(self):
         try:
             self.zk.disconnect()
-            current_app.logger.info("Disconnected from ZK device")
+            app_logger.info("Disconnected from ZK device")
         except Exception as e:
-            current_app.logger.error(f"Error disconnecting from ZK device: {e}")
+            app_logger.error(f"Error disconnecting from ZK device: {e}")
 
     def enable_device(self):
         self.zk.enable_device()
@@ -143,20 +144,10 @@ class ZkService:
 
 
 def get_zk_service():
-    """
-    Get the singleton instance of ZkService.
-
-    If the instance does not exist in the Flask application context,
-    create a new instance and store it in the context.
-
-    Returns:
-        SingletonClass: The singleton instance of ZkService.
-    """
-    if 'zk_service' not in g:
-        g.zk_service =  ZkService(
-            zk_class = ZK,
-            ip = current_app.config.get('DEVICE_IP'),
-            port = current_app.config.get('DEVICE_PORT'),
-            verbose = current_app.config.get('DEBUG')
-        )
-    return g.zk_service
+    zk_service =  ZkService(
+        zk_class = ZK,
+        ip = os.environ.get('DEVICE_IP'),
+        port = os.environ.get('DEVICE_PORT'),
+        verbose = bool(strtobool(os.getenv("FLASK_DEBUG", "false")))
+    )
+    return zk_service

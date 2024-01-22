@@ -4,7 +4,7 @@ from zkteco.validations import create_user_schema, delete_user_schema, get_finge
 from flask import current_app
 
 bp = Blueprint('user', __name__, url_prefix='/')
-
+zk_service = get_zk_service()
 
 @bp.route('/user', methods=['POST'])
 def create_user():
@@ -21,7 +21,7 @@ def create_user():
 
         current_app.logger.info(f"Creating user with ID: {user_id} and Data: {user_data}")
     
-        get_zk_service().create_user(user_id, user_data)
+        zk_service.create_user(user_id, user_data)
         return jsonify({"message": "User added successfully"})
     except Exception as e:
         error_message = f"Error creating user: {str(e)}"
@@ -38,7 +38,7 @@ def serialize_user(user):
 @bp.route('/users', methods=['GET'])
 def get_all_users():
     try:
-        users = get_zk_service().get_all_users()
+        users = zk_service.get_all_users()
         # Serialize each User object to a dictionary
         serialized_users = [serialize_user(user) for user in users]
         return jsonify({"message": "Users retrieved successfully", "data": serialized_users})
@@ -58,7 +58,7 @@ def delete_user(user_id):
     
     try:
         current_app.logger.info(f"Deleting user with ID: {user_id}")
-        get_zk_service().delete_user(data["user_id"])
+        zk_service.delete_user(data["user_id"])
         return jsonify({"message": "User deleted successfully"})
     except Exception as e:
         error_message = f"Error deleting user: {str(e)}"
@@ -73,7 +73,7 @@ def create_fingerprint(user_id):
     
     try:
         current_app.logger.info(f"Creating fingerprint for user with ID: {user_id} and finger index: {temp_id}")
-        get_zk_service().enroll_user(int(user_id), int(temp_id))
+        zk_service.enroll_user(int(user_id), int(temp_id))
         return jsonify({"message": "Fingerprint created successfully"})
     except Exception as e:
         error_message = f"Error creating fingerprint: {str(e)}"
@@ -91,7 +91,7 @@ def delete_fingerprint(user_id, temp_id):
 
     try:
         current_app.logger.info(f"Deleting fingerprint for user with ID: {user_id} and finger index: {temp_id}")
-        get_zk_service().delete_user_template(data["user_id"], data["temp_id"])
+        zk_service.delete_user_template(data["user_id"], data["temp_id"])
         return jsonify({"message": "Fingerprint deleted successfully"})
     except Exception as e:
         error_message = f"Error deleting fingerprint: {str(e)}"
@@ -109,7 +109,7 @@ def get_fingerprint(user_id, temp_id):
     
     try:
         current_app.logger.info(f"Getting fingerprint for user with ID: {user_id} and finger index: {temp_id}")
-        get_zk_service().get_user_template(data["user_id"], data["temp_id"])
+        zk_service.get_user_template(data["user_id"], data["temp_id"])
         return jsonify({"message": "Fingerprint retrieved successfully"})
     except Exception as e:
         error_message = f"Error retrieving fingerprint: {str(e)}"

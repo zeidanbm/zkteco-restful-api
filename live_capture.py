@@ -15,7 +15,6 @@ from logging.handlers import RotatingFileHandler
 
 load_dotenv()
 
-
 # Log file size from .env or default to 10MB
 log_file_size = int(os.getenv('LOG_FILE_SIZE', 10485760))
 
@@ -153,11 +152,12 @@ class ZktecoWrapper:
             isDeviceAlive = self.zk.helper.test_ping()
             
             if not isDeviceAlive:
-                time.sleep(6)
+                logger.warning("Terminating zkteco-live-capture service.")
                 self.terminate_service()
+                return
 
-            # Sleep for 5 seconds before the next iteration
-            time.sleep(6)
+            # Sleep for 15 seconds before the next iteration
+            time.sleep(15)
 
     def enable_device(self):
         self.zk.enable_device()
