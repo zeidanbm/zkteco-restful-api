@@ -144,6 +144,8 @@ class ZkService:
 
 
 def get_zk_service():
+    app_logger.info(os.environ.get('DEVICE_IP'))
+    app_logger.info(os.environ.get('DEVICE_PORT'))
     zk_service =  ZkService(
         zk_class = ZK,
         ip = os.environ.get('DEVICE_IP'),
