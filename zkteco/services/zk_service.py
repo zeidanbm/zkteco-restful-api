@@ -146,7 +146,7 @@ def get_zk_service():
     zk_service =  ZkService(
         zk_class = ZK,
         ip = os.environ.get('DEVICE_IP'),
-        port = os.environ.get('DEVICE_PORT'),
+        port = int(os.environ.get('DEVICE_PORT')),
         verbose = bool(strtobool(os.getenv("FLASK_DEBUG", "false")))
     )
     return zk_service
