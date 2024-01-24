@@ -39,7 +39,7 @@ def serialize_template(template):
     return {
         "id": template.uid,
         "fid": template.fid,
-        "valid": template.group_id,
+        "valid": template.valid,
         "template": template.template,
     }
 
