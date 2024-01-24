@@ -37,7 +37,7 @@ def serialize_user(user):
 
 def serialize_template(template):
     return {
-        "id": template.user_id,
+        "id": template.uid,
         "fid": template.fid,
         "valid": template.group_id,
         "template": template.template,
