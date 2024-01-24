@@ -40,7 +40,7 @@ def serialize_template(template):
         "id": template.uid,
         "fid": template.fid,
         "valid": template.valid,
-        "template": template.template,
+        "template": template.template.decode('utf-8'),
     }
 
 @bp.route('/users', methods=['GET'])
