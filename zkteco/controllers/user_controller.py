@@ -35,6 +35,14 @@ def serialize_user(user):
         "groupId": user.group_id
     }
 
+def serialize_template(template):
+    return {
+        "id": template.user_id,
+        "fid": template.fid,
+        "valid": template.group_id,
+        "template": template.template,
+    }
+
 @bp.route('/users', methods=['GET'])
 def get_all_users():
     try:
@@ -109,8 +117,10 @@ def get_fingerprint(user_id, temp_id):
     
     try:
         current_app.logger.info(f"Getting fingerprint for user with ID: {user_id} and finger index: {temp_id}")
-        zk_service.get_user_template(data["user_id"], data["temp_id"])
-        return jsonify({"message": "Fingerprint retrieved successfully"})
+        template = zk_service.get_user_template(data["user_id"], data["temp_id"])
+        # Serialize template
+        serialized_template = serialize_template(template)
+        return jsonify({"message": "Fingerprint retrieved successfully", "data": serialized_template})
     except Exception as e:
         error_message = f"Error retrieving fingerprint: {str(e)}"
         current_app.logger.error(error_message)

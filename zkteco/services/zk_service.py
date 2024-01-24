@@ -106,11 +106,12 @@ class ZkService:
             zk_instance = self.zk
             self.connect()
             self.disable_device()
-            zk_instance.get_user_template(
+            template = zk_instance.get_user_template(
                 uid = user_id,
                 temp_id = temp_id,
                 user_id = str(user_id)
             )
+            return template
         finally:
             self.enable_device()
     
