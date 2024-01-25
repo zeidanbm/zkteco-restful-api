@@ -1,5 +1,5 @@
 import logging
-import sys
+#import sys
 from logging.handlers import RotatingFileHandler
 import os
 
@@ -25,4 +25,4 @@ app_logger.addHandler(create_log_handler())
 app_logger.setLevel(logging.INFO)
 
 # Redirect stdout to the logger's handler
-sys.stdout = app_logger.handlers[0].stream
+#sys.stdout = app_logger.handlers[0].stream
