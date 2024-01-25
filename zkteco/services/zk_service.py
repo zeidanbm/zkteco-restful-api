@@ -10,7 +10,7 @@ from zkteco.logger import app_logger
 load_dotenv()
 
 class ZkService:
-    def __init__(self, zk_class: Type[ZK], ip, port=4370, verbose=False, timeout=None, password=0, force_udp=False):
+    def __init__(self, zk_class: Type[ZK], ip, port=4370, verbose=False, timeout=350, password=0, force_udp=False):
         try:
             self.zk = zk_class(
                 ip,
