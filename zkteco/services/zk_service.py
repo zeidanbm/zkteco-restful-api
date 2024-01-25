@@ -18,7 +18,7 @@ class ZkService:
                 timeout=timeout,
                 password=password,
                 force_udp=force_udp,
-                verbose=True
+                verbose=verbose
             )
             self.connect()
         except Exception as e:
