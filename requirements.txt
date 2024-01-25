@@ -16,7 +16,7 @@ jsonschema-specifications==2023.12.1
 MarkupSafe==2.1.3
 packaging==23.2
 python-dotenv==1.0.0
--e git+https://github.com/zeidanbm/pyzk.git@4157c9606402e88882a9d9f3b1ba59ca5d2ba05c#egg=pyzk
+-e git+https://github.com/zeidanbm/pyzk.git@ff8783718ae32fbfda5d0723fc45136b7fb68b96#egg=pyzk
 referencing==0.32.0
 requests==2.31.0
 rpds-py==0.15.2
