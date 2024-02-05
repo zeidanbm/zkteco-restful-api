@@ -47,6 +47,9 @@ def serialize_template(template):
 def get_all_users():
     try:
         users = zk_service.get_all_users()
+        if not users:
+            return jsonify({"message": "No users found", "data": []})
+        
         # Serialize each User object to a dictionary
         serialized_users = [serialize_user(user) for user in users]
         return jsonify({"message": "Users retrieved successfully", "data": serialized_users})
