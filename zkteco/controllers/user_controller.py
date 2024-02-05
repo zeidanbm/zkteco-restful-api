@@ -121,6 +121,8 @@ def get_fingerprint(user_id, temp_id):
     try:
         current_app.logger.info(f"Getting fingerprint for user with ID: {user_id} and finger index: {temp_id}")
         template = zk_service.get_user_template(data["user_id"], data["temp_id"])
+        if not template:
+            return jsonify({"message": "No templates found", "data": ""})
         # Serialize template
         serialized_template = serialize_template(template)
         current_app.logger.info(f"Fingerprint retrieved : {template.template}")
